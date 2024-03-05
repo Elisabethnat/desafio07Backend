@@ -1,7 +1,6 @@
 import cartModel from '../models/carts.models.js';
-// import productsModel from '../models/products.model.js';
 
-//Get Carts 
+
 const getCarts = async (req, res) => {
     const {limit}  = req.query;
     try{
@@ -12,7 +11,7 @@ const getCarts = async (req, res) => {
         res.status(400).send({error: `Error al consultar carrito: ${error}`});
     };
 };
-//Get cart by id
+
 const getCart = async (req, res) => {
     const { cid } = req.params;
     try{
@@ -25,7 +24,7 @@ const getCart = async (req, res) => {
         res.status(400).send ({ error:`Error al consultar carritos: ${error}`});
     };
 };
-// Create Carts
+
 const postCart = async (req, res) => {
     try{
         const respuesta = await cartModel.create({}); //o (req.body)
@@ -35,26 +34,20 @@ const postCart = async (req, res) => {
         res.status(400).send ({ error:`Error al crear carritos: ${error}`});
     };
 };
-//put product to cart (agrega el producto ok y actualiza si existe)
 const putProductsToCart = async (req, res) => {
     const { cid, pid } = req.params;
     const { quantity } = req.body;
 
     try {
-        // Verificar si el carrito existe
         const cart = await cartModel.findByIdAndUpdate(cid);
         !cart ?  res.status(404).send({ resultado: 'Cart not found' }) : ""
         
-        // Verificar si existe el producto
         const prodIndex = cart.products.findIndex(prod => prod.id_prod.toString() === pid);
 
         prodIndex !== -1 ?
-            // Si el producto ya existe, actualiza la cantidad
             cart.products[prodIndex].quantity += Number(quantity):
-            // Si el producto no existe, agrega uno nuevo al carrito
             cart.products.push({ id_prod: pid, quantity });
 
-        // Guardar el carrito actualizado en la base de datos
         await cart.save();
 
         res.status(200).send({ resultado: 'OK', message: cart });
@@ -62,7 +55,6 @@ const putProductsToCart = async (req, res) => {
         res.status(400).send({ error: `Error al agregar productos: ${error}` });
     };
 };
-//update cart by id 
 const updateProductToCart = async (req, res) => {
     const { cid } = req.params;
 	const { updateProducts } = req.body;
@@ -82,7 +74,6 @@ const updateProductToCart = async (req, res) => {
 		res.status(400).send({ error: `Error al agregar productos: ${error}` });
 	};
 };
-//finalizar compra
 const purchaseCart = async (req, res) => {
 	const { cid } = req.params;
 	try {
@@ -102,7 +93,6 @@ const purchaseCart = async (req, res) => {
 					await product.save();
 					purchaseItems.push(product.title);
 				}
-				//ticket?info=${amount}
 			});
 			console.log(purchaseItems);
 			await cartModel.findByIdAndUpdate(cid, { products: [] });
@@ -116,7 +106,6 @@ const purchaseCart = async (req, res) => {
 		res.status(400).send({ error: `Error al consultar carrito: ${error}` });
 	}
 };
-// delete pid from cart
 const deleteProductCart = async (req, res) => {
     const { cid, pid } = req.params;
 
@@ -143,7 +132,6 @@ const deleteProductCart = async (req, res) => {
 		res.status(400).send({ error: `Error al eliminar producto: ${error}` });
 	};
 };
-//Delete all prodcuts from cart
 const deleteProductsCart = async (req, res) => {
     const { id } = req.params;
     try {
