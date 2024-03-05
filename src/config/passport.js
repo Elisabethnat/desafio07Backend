@@ -96,11 +96,11 @@ import 'dotenv/config.js';
       clientSecret: process.env.CLIENT_SECRET,
       callbackURL: process.env.CALLBACK_URL
  
-   }, async (accesToken, refreshToken, profile, done)=>{ //es para registrarse
+   }, async (accesToken, refreshToken, profile, done)=>{ 
       console.log(accesToken);
       console.log(refreshToken);
       try { 
-         const user = await userModel.findOne({ email: profile._json.email}); //como el email es un atributo único es la única forma de garantizarme si ya existe o no
+         const user = await userModel.findOne({ email: profile._json.email}); 
          if (user) {
             done(null, user);
          } else {
@@ -108,8 +108,8 @@ import 'dotenv/config.js';
                first_name: profile._json.name,
                last_name:" ",
                email: profile._json.email,
-               age: 18,  //edad por defecto
-               password: 'password' //como no la tengo, le paso una pass generica para que despues la cambie
+               age: 18,  
+               password: 'password' 
             })
             done(null, userCreated)
          };    
@@ -117,11 +117,11 @@ import 'dotenv/config.js';
          done(error)
       };
    })); 
-   //Inicializamos la session del user
+   
    passport.serializeUser((user, done) => {
       done(null, user._id);
    });
-   //logout session
+   
    passport.deserializeUser(async (id, done)=>{
       const user = await userModel.findById(id);
       done (null, user);
