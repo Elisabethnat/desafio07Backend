@@ -1,6 +1,5 @@
 import { Server } from "socket.io";
 
-// Conexion Socket.io
 export const configureSocket = (httpServer) => {
   const io = new Server(httpServer);
   const mensajes = [];
@@ -11,7 +10,7 @@ export const configureSocket = (httpServer) => {
     socket.on("mensaje", (info) => {
       console.log(info);
       mensajes.push(info);
-      io.emit("mensajes", mensajes); // emito el array de mensajes
+      io.emit("mensajes", mensajes); 
     });
 
     // socket.on('load', async () => {

@@ -6,5 +6,5 @@ export default function auth(req,res,next) {
         console.log("Bienvenido al login del admin", email);
         return res.redirect("/static/admin");
     }
-    return next() //Continua con la ejecución normal de la ruta si no tiene acceso
+    return next() 
 };
