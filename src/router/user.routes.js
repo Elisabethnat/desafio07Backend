@@ -2,7 +2,6 @@ import { Router } from "express";
 import usersController from "../controllers/users.controller.js";
 
 const userRouter = Router();
-//Ruta para obtener usuarios
 userRouter.get('/', usersController.userGet);
   
 export default userRouter;

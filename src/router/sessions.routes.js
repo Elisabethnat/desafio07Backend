@@ -4,7 +4,7 @@ import { passportError, authorization } from "../utils/messageErrors.js";
 import sessionController from "../controllers/sessions.controler.js";
 
 const sessionRouter = Router();
- //Ruta para crear el login del usuario con passport
+ 
 sessionRouter.post('/login', 
                   passport.authenticate('login'), 
                   sessionController.postSessions);

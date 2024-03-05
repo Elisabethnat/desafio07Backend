@@ -10,7 +10,7 @@ import ticketRouter from './tickets.routes.js';
 
 const router = Router();
 
-router.use('/api/products', productRouter); //aca se enlaza la ruta al use
+router.use('/api/products', productRouter); 
 router.use('/api/carts', cartRouter);
 router.use('/api/users', userRouter);
 router.use('/api/message', messageRouter );
