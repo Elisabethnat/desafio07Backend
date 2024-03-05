@@ -1,5 +1,4 @@
 import { generateToken } from "../utils/jwt.js";
-//login controller
 const postSessions = async (req, res) => {
     try {
         if (!req.user) {
@@ -12,13 +11,12 @@ const postSessions = async (req, res) => {
         //     age: req.user.age,
         //     email: req.user.email
         // };
-        //genero el token cuando inicio la session
-        const token = generateToken(req.user); // genero el token con el usuario
-        //una vez q generamos el token se lo respondo a las cookies
+        
+        const token = generateToken(req.user); 
         res.cookie('jwtCookie', token, {
-          maxAge: 43200000 // seteo por 12 hs la sesion en milisegundos
+          maxAge: 43200000 
         });
-        res.status(200).send ({token}); //aca el profe envio directamente la cookie varibale token antes estaba payload: req.user 
+        res.status(200).send ({token}); 
       } catch (error) {
         res.status(500).send({mensaje: `Error al inicializar sesion ${error}`});
       };
@@ -48,7 +46,6 @@ const getGithubCreateUser = async (req, res) => {
 const getGithubSessions = async (req, res) => {
     req.session.user = req.user
     res.status(200).send({mensaje: "Session created"});
-    // res.redirect('/static/home'); //Redirigimos al usuario a home una vez inicia sesion correctamente
 };
 
 const getLogout = async (req, res) => {
@@ -57,7 +54,7 @@ const getLogout = async (req, res) => {
           req.session.destroy()
           res.clearCookie('jwtCookie');
           res.status(200).send({ resultado: 'Has cerrado sesion' })
-        //   res.redirect("/static/signin");
+        
         }
         catch (error) {
           res.status(400).send({ error: `Error al cerrar sesion: ${error}` });

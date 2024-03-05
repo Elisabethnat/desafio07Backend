@@ -1,21 +1,19 @@
 import productsModel from "../models/products.model.js";
 
-//Esto seria el controlador.
 
 export const getProducts = async(req, res) => {
     const { limit, page, filter, sort } = req.query;
 
-    const pag = page ? page : 1; //Definimos que por defecto inicia en la página 1 o que el usuario elija qué página quiere navegar
-    const lim = limit ? limit : 10; //Limitamos que por default traiga 10 productos en la página o que el usuario pueda ingresar el límite
-    const ord = sort == 'asc' ? 1 : -1;//Utilizamos la query.sort que viaja desde el lado del cliente para que según lo que ingrese ordene de forma Ascendente o Descendente
+    const pag = page ? page : 1;  
+    const lim = limit ? limit : 10;  
+    const ord = sort == 'asc' ? 1 : -1;
     
     try {
         const query = {};
             if (filter) {
             query.category = filter;
             }
-        // const products = await productsModel.find({}).exec(); aca me trae todos los products
-        const products = await productsModel.paginate(query, {limit: lim, page: pag, sort : { price:ord }}); //{} como primer parametro para que traiga todos los productos
+        const products = await productsModel.paginate(query, {limit: lim, page: pag, sort : { price:ord }}); 
         
         if (products) {
            return res.status(200).send(products);
